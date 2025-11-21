@@ -15,14 +15,15 @@
   html {
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: rgb(2 6 23); /* slate-950 */
   }
 
   body {
-    @apply antialiased;
+    @apply antialiased text-white;
   }
 }
 
-/* Custom utility classes for shadcn/ui patterns */
+/* Custom utility classes and animations */
 @layer utilities {
   .animate-in {
     animation-name: animateIn;
@@ -42,5 +43,36 @@
     --tw-exit-rotate: initial;
     --tw-exit-translate-x: initial;
     --tw-exit-translate-y: initial;
+  }
+
+  /* Smooth, subtle gradient pulsing used when 3D is disabled or loading */
+  .animate-pulse-slow {
+    animation: pulseSlow 6s ease-in-out infinite;
+  }
+}
+
+@keyframes animateIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes animateOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(4px) scale(0.98); }
+}
+
+@keyframes pulseSlow {
+  0% { filter: saturate(1) brightness(1); }
+  50% { filter: saturate(1.15) brightness(1.08); }
+  100% { filter: saturate(1) brightness(1); }
+}
+
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
